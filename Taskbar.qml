@@ -32,6 +32,40 @@ Item {
                 border.color: Color.crimsonCore
 
                 Behavior on border.color { ColorAnimation { duration: 200 } }
+                property bool isHovered: hoverHandler.hovered
+
+                HoverHandler {
+                    id: hoverHandler
+                }
+
+                PopupWindow {
+                    id: tooltipPopup
+                    visible: taskItem.isHovered
+                    implicitWidth: Math.min(tooltipText.implicitWidth + 16, 200)
+                    implicitHeight: tooltipText.implicitHeight + 2
+                    color: "transparent"
+
+                    anchor.item: taskItem
+                    anchor.gravity: Edges.Top
+                    anchor.rect.y: -2
+                    anchor.rect.x: taskItem.width / 2
+                    
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Color.charcoalNight
+                        border.color: Color.bloodEmber
+                        border.width: 3
+                        radius: 8
+
+                        Text {
+                            text: modelData.title.length > 20 ? modelData.title.substring(0, 20) + "…" : modelData.title
+                            id: tooltipText
+                            anchors.centerIn: parent
+                            color: Color.meteorTrail
+                            font.pixelSize: 11
+                        }
+                    }
+                }
 
                 Rectangle {
                     anchors.fill: parent
@@ -49,24 +83,14 @@ Item {
                     }
                 }
 
-                ColumnLayout {
-                    anchors.centerIn: parent
-                    spacing: 1
-
                     IconImage {
-                        Layout.alignment: Qt.AlignHCenter
+                        anchors.centerIn: parent
                         source: modelData.wayland ? `image://icon/${modelData.wayland.appId}` : ""
                         implicitWidth: 28
                         implicitHeight: 28
                     }
 
-                    Text {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: modelData.title.length > 8 ? modelData.title.substring(0, 8) + "…" : modelData.title
-                        color: Color.meteorTrail
-                        font.pixelSize: 11
-                    }
-                }
+                
 
                 MouseArea {
                     anchors.fill: parent
