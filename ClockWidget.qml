@@ -199,7 +199,7 @@ FocusScope {
         border.color: Color.bloodEmber
 
         implicitWidth: timeLabel.implicitWidth + 15
-        implicitHeight: 35
+        implicitHeight: 36
 
 
         Text {

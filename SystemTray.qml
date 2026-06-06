@@ -13,8 +13,8 @@ PanelWindow {
     
     // Set the window itself to be invisible
     color: "transparent"
-    implicitWidth: Screen.width / 2
-    implicitHeight: 60// Slightly taller to account for margins/shadows
+    implicitWidth: Screen.width / 1.5
+    implicitHeight: 50// Slightly taller to account for margins/shadows
     exclusiveZone: 0 
 
     property bool isHovered: false
@@ -56,6 +56,11 @@ PanelWindow {
             id: trayRow
             anchors.centerIn: parent
             spacing: 12
+            
+            Taskbar {
+                monitorIndex: 0
+            }
+
 
             Repeater {
                 model: SystemTray.items

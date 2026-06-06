@@ -27,4 +27,15 @@ QtObject {
     readonly property color meteorTrail: "#fad2d8"
     readonly property color coldSpace: "#2a2633"
     readonly property color voidViolet: "#3a2e44"
+
+// State / Data Colors
+readonly property color deadZone: "#25212b"      // 0% - same as smokedGraphite
+readonly property color deepPulse: "#3d1f4a"     // 25% - dark purple
+readonly property color voidBloom: "#5a2d6e"     // 50% - mid purple  
+readonly property color nebulaCore: "#7a3d8f"    // 75% - bright purple
+readonly property color cosmicFlare: "#9d4fb5"   // 100% - vivid purple
+
+
 }
+
+

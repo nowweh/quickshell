@@ -3,45 +3,48 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 
-PanelWindow {
-    id: barWindow
-    implicitWidth: Screen.width // Or however wide your bar should be
-    implicitHeight: 40
-    color: "transparent"
-    anchors.top: true
+Scope {
+    Variants {
+        model: Quickshell.screens
 
-    RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 5
-        anchors.rightMargin: 5
-        spacing: 0
+        PanelWindow {
+            id: barWindow
+            required property var modelData
+            screen: modelData
+            implicitWidth: Screen.width
+            implicitHeight: 40
+            color: "transparent"
+            anchors.top: true
 
-        RowLayout{
-            id: leftModules
-            Layout.alignment: Qt.AlignLeft
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                spacing: 0
 
-            // Modules:
-            ClockWidget {}
-            Workspaces {}
+                RowLayout {
+                    id: leftModules
+                    Layout.alignment: Qt.AlignLeft
+                    ClockWidget {}
+                    Workspaces {monitorIndex: barWindow.screen.name === "eDP-1" ? 0 : 1}
+                }
+
+                Item { Layout.fillWidth: true }
+
+                RowLayout {
+                    id: rightModules
+                    Layout.alignment: Qt.AlignRight
+                    VolumePill {}
+                    WifiModule {}
+                    Battery {}
+                }
+            }
+
+            RowLayout {
+                id: centerModules
+                anchors.centerIn: parent
+                spacing: 8
+            }
         }
-
-        Item { Layout.fillWidth: true }
-
-        RowLayout{
-            id: rightModules
-            Layout.alignment: Qt.AlignRight
-
-            // Modules:
-        }
-    }
-
-    RowLayout {
-        id: centerModules
-        anchors.centerIn: parent
-        spacing: 8
-        
-        // Modules:
     }
 }
-
-
