@@ -18,26 +18,11 @@ Rectangle {
                               batteryWidget.percent > 30 ? 1000 :
                               batteryWidget.percent > 20 ? 500 : 200
 
-    SequentialAnimation {
-        running: !batteryWidget.charging
+    SequentialAnimation on border.color {
+       running: !batteryWidget.charging
         loops: Animation.Infinite
-
-        NumberAnimation {
-            target: fillCircle
-            property: "opacity"
-            from: 1.0
-            to: 0.4
-            duration: batteryWidget.pulseDuration
-            easing.type: Easing.InOutSine
-        }
-        NumberAnimation {
-            target: fillCircle
-            property: "opacity"
-            from: 0.4
-            to: 1.0
-            duration: batteryWidget.pulseDuration
-            easing.type: Easing.InOutSine
-        }
+        ColorAnimation { to: Color.crimsonCore; duration: 1500; easing.type: Easing.InOutSine }
+        ColorAnimation { to: Color.bloodEmber; duration: 1500; easing.type: Easing.InOutSine }
     }
 
     Process {

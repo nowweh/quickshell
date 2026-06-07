@@ -39,7 +39,7 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: 4
                 constraintSize: Qt.size(parent.width, parent.height)
-                live: true
+                live: false
             }
         }
     }
