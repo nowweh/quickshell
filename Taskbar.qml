@@ -7,7 +7,7 @@ import Quickshell.Widgets
 Item {
     id: taskbar
     property int monitorIndex: 0
-    property var pinnedApps: ["firefox", "codium", "kitty", "thunar", "discord", "localsend"]
+    property var pinnedApps: ["firefox", "codium", "kitty", "thunar", "discord", "localsend", "steam"]
     implicitHeight: 36
     implicitWidth: taskRow.implicitWidth + 16
 

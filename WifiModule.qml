@@ -35,7 +35,7 @@ Timer {
     Rectangle {
         anchors.fill: parent
         radius: 100
-        color: Color.abyssBlack
+        color: Qt.rgba(Color.charcoalNight.r, Color.charcoalNight.g, Color.charcoalNight.b, 0.7)
         border.color: Color.bloodEmber
         border.width: 3
 
