@@ -5,91 +5,68 @@ import Quickshell.Widgets
 
 PanelWindow {
     id: trayRoot
-    
-    anchors {
-        bottom: true
-
-    }
-    
-    // Set the window itself to be invisible
+    anchors.bottom: true
     color: "transparent"
     implicitWidth: Screen.width / 1.5
-    implicitHeight: 50// Slightly taller to account for margins/shadows
-    exclusiveZone: 0 
+    implicitHeight: TrayState.isHovered ? 50 : 16
+    Behavior on implicitHeight { NumberAnimation { duration: 300; easing.type: Easing.OutCubic }}
+    exclusiveZone: 0
 
-    property bool isHovered: false
-
-    mask: Region {
-        item: isHovered ? trayContent : triggerZone
-    }
-
-    // 1. The Invisible Trigger (Bottom 2px)
-    Item {
-        id: triggerZone
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: 2
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: isHovered = true
+    MouseArea {
+       anchors.fill: parent
+        hoverEnabled: true
+        propagateComposedEvents: true
+        onEntered: {
+            closeTimer.stop()
+            TrayState.isHovered = true
         }
+        onExited: closeTimer.restart()
+        onClicked: (mouse) => mouse.accepted = false
     }
 
-    // 2. The Visual Bar
-    // We use a Rectangle inside the Window to get borders/radius
+    Timer {
+        id: closeTimer
+        interval: 500
+        onTriggered: if (!TrayState.tooltipVisible) TrayState.isHovered = false
+    }
+
     Rectangle {
         id: trayContent
         anchors.fill: parent
-        anchors.margins: 4 // Creates a "floating" effect
-        visible: isHovered
-        
-        // STYLING GOES HERE
-        color: Color.smokedGraphite
+        anchors.margins: 4
+        radius: 10
+        clip: true
+        color: Color.charcoalNight
         border.color: Color.bloodEmber
         border.width: 3
-        radius: 10
+        anchors.bottomMargin: -10
+        opacity: TrayState.isHovered ? 1.0 : 0.85
+        Behavior on opacity { NumberAnimation { duration: 200 } }
 
         Row {
             id: trayRow
             anchors.centerIn: parent
             spacing: 12
-            
-            Taskbar {
-                monitorIndex: 0
-            }
+            opacity: TrayState.isHovered ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
+            Taskbar { monitorIndex: 0 }
 
             Repeater {
                 model: SystemTray.items
                 delegate: MouseArea {
                     implicitWidth: 24
                     implicitHeight: 24
-                    
                     IconImage {
                         anchors.fill: parent
                         source: modelData.icon
                     }
-
                     onClicked: (mouse) => {
-                        if (mouse.button === Qt.LeftButton) {
-                            modelData.activate()
-                        } else {
-                            modelData.display(this.window, mouse.x, mouse.y)
-                        }
+                        if (mouse.button === Qt.LeftButton) modelData.activate()
+                        else modelData.display(this.window, mouse.x, mouse.y)
                     }
                 }
             }
-        }
-
-        // Close on exit
-        MouseArea {
-            anchors.fill: parent
-            z: -1 
-            hoverEnabled: true
-            onExited: isHovered = false
         }
     }
 }
