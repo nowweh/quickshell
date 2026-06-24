@@ -27,7 +27,7 @@ Rectangle {
 
     Process {
         id: batteryProc
-        command: ["bash", "-c", "cat /sys/class/power_supply/BAT1/capacity && cat /sys/class/power_supply/BAT1/status"]
+        command: ["bash", "-c", "cat /sys/class/power_supply/BAT0/capacity && cat /sys/class/power_supply/BAT0/status"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
